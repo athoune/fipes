@@ -1,0 +1,23 @@
+---
+- hosts: fipes
+  tasks:
+   - name: apt cache
+     sudo: True
+     apt: update_cache=yes cache_valid_time=3600
+
+   - name: Some packages
+     sudo: True
+     apt: pkg={{ item }}
+     with_items:
+      - erlang-nox
+      - make
+      - git
+      - wget
+
+   - name: get sources
+     git: repo=https://github.com/tOkeshu/fipes.git
+          dest=/home/{{ ansible_user_id }}/fipes
+
+   - name: make fipes
+     command: make chdir=/home/{{ ansible_user_id }}/fipes
+
