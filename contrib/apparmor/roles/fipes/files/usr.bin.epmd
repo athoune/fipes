@@ -1,0 +1,13 @@
+# vim:syntax=apparmor
+
+#include <tunables/global>
+
+profile  /usr/lib/erlang/erts-5.*/bin/epmd {
+#include <abstractions/base>
+    network inet6 tcp,
+    network inet tcp,
+
+    /lib/x86_64-linux-gnu/ld-2.19.so mr,
+    /lib/x86_64-linux-gnu/libm-2.19.so mr,
+    /lib/x86_64-linux-gnu/libc-2.19.so mr,
+}

@@ -1,0 +1,40 @@
+---
+ - name: apt cache
+   sudo: True
+   apt: update_cache=yes cache_valid_time=3600
+
+ - name: Some packages
+   sudo: True
+   apt: pkg={{ item }}
+   with_items:
+    - erlang-nox
+    - make
+    - git
+    - wget
+
+ - name: get sources
+   git: repo=https://github.com/tOkeshu/fipes.git
+        dest=/home/{{ ansible_user_id }}/fipes
+
+ - name: make fipes
+   command: make chdir=/home/{{ ansible_user_id }}/fipes
+
+ - name: fipes user
+   sudo: True
+   user: home=/opt/fipes
+         name=fipes
+         system=yes
+
+ - name: cp fipes
+   sudo: True
+   command: cp -r public deps ebin /opt/fipes/ chdir=/home/{{ ansible_user_id }}/fipes
+
+ - name: epmd apparmor
+   sudo: True
+   copy: src=usr.bin.epmd dest=/etc/apparmor.d/usr.bin.epmd
+   notify: restart apparmor
+
+ - name: fipes apparmor
+   sudo: True
+   copy: src=usr.bin.fipes dest=/etc/apparmor.d/usr.bin.fipes
+   notify: restart apparmor
