@@ -37,14 +37,7 @@ profile  fipes {
     /sys/devices/system/cpu/cpu*/topology/core_id r,
 
     /opt/fipes/ r,
-    /opt/fipes/public/ r,
-    /opt/fipes/public/** r,
-    /opt/fipes/deps/ r,
-    /opt/fipes/deps/** r,
+    /opt/fipes/** r,
     /opt/fipes/.erlang.cookie rw,
-    /opt/fipes/ebin/ r,
-    /opt/fipes/ebin/** r,
     /opt/fipes/erl_crash.dump w,
-
-
 }
